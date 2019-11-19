@@ -6,11 +6,12 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.NaturalId;
 import pt.estgp.socialnetwork.domain.audit.DomainObject;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -39,6 +40,18 @@ public class User extends DomainObject {
     @NotBlank
     @JsonIgnore
     private String password;
+
+    @NotBlank
+    private Instant birthDate;
+
+    @OneToMany(
+            mappedBy = "author",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            orphanRemoval = true
+    )
+    @OrderBy("createdAt desc")
+    private Set<Post> posts = new HashSet<>();
 
     public User(String name, String username, String email, String password) {
         this.name = name;
