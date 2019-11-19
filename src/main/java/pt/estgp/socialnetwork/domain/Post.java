@@ -1,7 +1,10 @@
 package pt.estgp.socialnetwork.domain;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import pt.estgp.socialnetwork.domain.audit.DomainObject;
 
 import javax.persistence.*;
@@ -9,7 +12,8 @@ import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @Entity
 public class Post extends DomainObject {
@@ -19,6 +23,7 @@ public class Post extends DomainObject {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "autor_id")
+    @JsonManagedReference
     private User author;
 
     @OneToMany(
@@ -28,6 +33,7 @@ public class Post extends DomainObject {
             orphanRemoval = true
     )
     @OrderBy("createdAt desc")
+    @JsonManagedReference
     private Set<Comment> comments = new HashSet<>();
 
     @OneToMany(
@@ -37,5 +43,6 @@ public class Post extends DomainObject {
             orphanRemoval = true
     )
     @OrderBy("createdAt desc")
+    @JsonIgnore
     private Set<Like> likes = new HashSet<>();
 }

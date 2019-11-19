@@ -1,8 +1,10 @@
 package pt.estgp.socialnetwork.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
 import pt.estgp.socialnetwork.domain.audit.DomainObject;
 
@@ -13,7 +15,8 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @Entity
 @Table(uniqueConstraints = {
@@ -51,6 +54,7 @@ public class User extends DomainObject {
             orphanRemoval = true
     )
     @OrderBy("createdAt desc")
+    @JsonBackReference
     private Set<Post> posts = new HashSet<>();
 
     public User(String name, String username, String email, String password) {

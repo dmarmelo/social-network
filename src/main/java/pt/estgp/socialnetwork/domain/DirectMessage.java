@@ -1,13 +1,16 @@
 package pt.estgp.socialnetwork.domain;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import pt.estgp.socialnetwork.domain.audit.DomainObject;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @Entity
 public class DirectMessage extends DomainObject {
@@ -17,9 +20,11 @@ public class DirectMessage extends DomainObject {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "sender_id")
+    @JsonManagedReference
     private User sender;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "recipient_id")
+    @JsonManagedReference
     private User recipient;
 }

@@ -1,12 +1,14 @@
 package pt.estgp.socialnetwork.domain;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import pt.estgp.socialnetwork.domain.audit.DomainObject;
 
 import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "likes") // Because 'like' is a reserved keyword in SQL
