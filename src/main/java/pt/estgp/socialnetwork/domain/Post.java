@@ -45,4 +45,11 @@ public class Post extends DomainObject {
     @OrderBy("createdAt desc")
     @JsonIgnore
     private Set<Like> likes = new HashSet<>();
+
+    @Transient
+    public Long getLikesNumber() {
+        return likes.stream()
+                .filter(l -> !l.isRemoved())
+                .count();
+    }
 }
