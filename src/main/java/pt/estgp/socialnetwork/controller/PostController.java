@@ -47,7 +47,7 @@ public class PostController {
         return new ResponseEntity<>(like, HttpStatus.CREATED);
     }
 
-    @PostMapping("/{postId}/unlike")
+    @DeleteMapping("/{postId}/like")
     public ResponseEntity<Like> remLike(@PathVariable Long postId, @CurrentUser UserPrincipal userPrincipal) {
         var like = postService.remLike(postId, userPrincipal);
         return new ResponseEntity<>(like, HttpStatus.CREATED);
