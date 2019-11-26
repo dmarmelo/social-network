@@ -26,8 +26,8 @@ import java.util.List;
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
-    public static final String AUTHORIZATION_HEADER = "Authorization";
-    public static final String DEFAULT_INCLUDE_PATTERN = "/api/.*";
+    private static final String AUTHORIZATION_HEADER = "Authorization";
+    private static final String DEFAULT_INCLUDE_PATTERN = "(/api/.*|/auth/refresh)";
 
     @Bean
     public Docket api() {
@@ -50,7 +50,6 @@ public class SwaggerConfig {
         return SecurityContext.builder()
                 .securityReferences(defaultAuth())
                 .forPaths(PathSelectors.regex(DEFAULT_INCLUDE_PATTERN))
-                .forPaths(PathSelectors.ant("/auth/refresh"))
                 .build();
     }
 
