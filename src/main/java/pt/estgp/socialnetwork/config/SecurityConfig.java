@@ -1,6 +1,6 @@
 package pt.estgp.socialnetwork.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,12 +25,10 @@ import pt.estgp.socialnetwork.security.JwtAuthenticationFilter;
         jsr250Enabled = true,
         prePostEnabled = true
 )
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
-    CustomUserDetailsService customUserDetailsService;
-
-    @Autowired
-    private JwtAuthenticationEntryPoint unauthorizedHandler;
+    private final CustomUserDetailsService customUserDetailsService;
+    private final JwtAuthenticationEntryPoint unauthorizedHandler;
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
@@ -79,10 +77,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.css",
                         "/**/*.js")
                     .permitAll()
-                .antMatchers("/api/auth/**")
+                .antMatchers("/auth/signin", "/auth/signup")
                     .permitAll()
                 // Swagger API
-                .antMatchers( "/swagger-ui.html", "/v2/api-docs/**", "/swagger-resources/**", "/webjars/**", "/csrf")
+                .antMatchers("/swagger-ui.html",
+                        "/v2/api-docs",
+                        "/swagger-resources/**",
+                        "/configuration/**",
+                        "/webjars/**",
+                        "/csrf")
                     .permitAll()
                 .anyRequest()
                     .authenticated();
