@@ -1,5 +1,7 @@
 package pt.estgp.socialnetwork.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,11 +21,13 @@ import java.util.Set;
 @RestController
 @RequestMapping(path = "/api/post")
 @RequiredArgsConstructor
+@Api(description="Operations pertaining to posts in Posts Management System")
 public class PostController {
     private final UserRepository userRepository;
     private final PostService postService;
 
     @GetMapping
+    @ApiOperation(value = "View a list of all posts from the current logged user")
     public ResponseEntity<Set<Post>> all(@CurrentUser UserPrincipal userPrincipal) {
         var user = userRepository.findById(userPrincipal.getId()).get();
         return new ResponseEntity<>(user.getPosts(), HttpStatus.OK);

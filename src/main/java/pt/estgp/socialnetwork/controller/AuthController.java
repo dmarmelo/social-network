@@ -1,4 +1,4 @@
-package pt.estgp.socialnetwork.security;
+package pt.estgp.socialnetwork.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,6 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pt.estgp.socialnetwork.domain.User;
 import pt.estgp.socialnetwork.payload.ApiResponse;
 import pt.estgp.socialnetwork.repository.UserRepository;
+import pt.estgp.socialnetwork.security.JwtTokenProvider;
 import pt.estgp.socialnetwork.security.payload.JwtAuthenticationResponse;
 import pt.estgp.socialnetwork.security.payload.LoginRequest;
 import pt.estgp.socialnetwork.security.payload.SignUpRequest;
@@ -24,7 +25,7 @@ import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
