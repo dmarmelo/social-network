@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
 import pt.estgp.socialnetwork.domain.audit.DomainObject;
 
 import javax.persistence.*;
@@ -19,6 +21,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Entity
+@Indexed
 @Table(uniqueConstraints = {
         @UniqueConstraint(columnNames = {
                 "username"
@@ -29,12 +32,15 @@ import java.util.Set;
 })
 public class User extends DomainObject {
 
+    @Field
     @NotBlank
     private String name;
 
+    @Field
     @NotBlank
     private String username;
 
+    @Field
     @NaturalId
     @NotBlank
     @Email

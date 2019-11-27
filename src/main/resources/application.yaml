@@ -24,6 +24,11 @@ spring:
       hibernate:
         # The SQL dialect makes Hibernate generate better SQL for the chosen database
         dialect: org.hibernate.dialect.MySQL55Dialect
+        # Hibernate Search properties
+        search:
+          default:
+            directory_provider: filesystem
+            indexBase: ./search-index
 
 # Expose all Actuator endpoints
 management:
