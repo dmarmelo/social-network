@@ -13,6 +13,8 @@ import pt.estgp.socialnetwork.domain.audit.DomainObject;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
@@ -50,7 +52,8 @@ public class User extends DomainObject {
     @JsonIgnore
     private String password;
 
-    @NotBlank
+    @Past
+    @NotNull
     private Instant birthDate;
 
     @OneToMany(
@@ -63,10 +66,11 @@ public class User extends DomainObject {
     @JsonBackReference
     private Set<Post> posts = new HashSet<>();
 
-    public User(String name, String username, String email, String password) {
+    public User(String name, String username, String email, String password, Instant birthDate) {
         this.name = name;
         this.username = username;
         this.email = email;
         this.password = password;
+        this.birthDate = birthDate;
     }
 }

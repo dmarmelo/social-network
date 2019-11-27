@@ -2,9 +2,8 @@ package pt.estgp.socialnetwork.security.payload;
 
 import lombok.Data;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
+import java.time.Instant;
 
 @Data
 public class SignUpRequest {
@@ -24,5 +23,9 @@ public class SignUpRequest {
     @NotBlank
     @Size(min = 6, max = 20)
     private String password;
+
+    @Past
+    @NotNull
+    private Instant birthDate;
 
 }
