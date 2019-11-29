@@ -26,20 +26,20 @@ public class PostService {
 
     @Transactional
     public Post createPost(String content, UserPrincipal userPrincipal) {
-        var user = userRepository.findById(userPrincipal.getId()).get();
+        //var user = userRepository.findById(userPrincipal.getId()).get();
         var post = new Post();
-        post.setAuthor(user);
+        //post.setAuthor(user);
         post.setContent(content);
         return postRepository.save(post);
     }
 
     @Transactional
     public Comment createComment(Long postId, String content, UserPrincipal userPrincipal) {
-        var user = userRepository.findById(userPrincipal.getId()).get();
+        //var user = userRepository.findById(userPrincipal.getId()).get();
         var post = postRepository.findById(postId).orElseThrow(() -> new ResourceNotFoundException("Post", "id", postId));
         var comment = new Comment();
         comment.setPost(post);
-        comment.setAuthor(user);
+        //comment.setAuthor(user);
         comment.setContent(content);
         return commentRepository.save(comment);
     }
@@ -50,10 +50,10 @@ public class PostService {
         var post = postRepository.findById(postId).orElseThrow(() -> new ResourceNotFoundException("Post", "id", postId));
         var hasLike = post.getLikes().stream()
                 .filter(l -> !l.isRemoved())
-                .anyMatch(l -> l.getAutor().equals(user));
+                .anyMatch(l -> l.getCreatedBy().equals(user));
         if (hasLike) throw new BadRequestException("Post was already liked before!");
         var like = new Like();
-        like.setAutor(user);
+        //like.setAutor(user);
         like.setPost(post);
         return likeRepository.save(like);
     }
@@ -61,7 +61,7 @@ public class PostService {
     @Transactional
     public Like remLike(Long postId, UserPrincipal userPrincipal) {
         var post = postRepository.findById(postId).orElseThrow(() -> new ResourceNotFoundException("Post", "id", postId));
-        var like = likeRepository.findByPostIdAndAutorIdAndRemovedFalse(post.getId(), userPrincipal.getId())
+        var like = likeRepository.findByPostIdAndCreatedByIdAndRemovedFalse(post.getId(), userPrincipal.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Like", "postId:userId", postId + ":" + userPrincipal.getId()));
         like.setRemoved(true);
         return likeRepository.save(like);

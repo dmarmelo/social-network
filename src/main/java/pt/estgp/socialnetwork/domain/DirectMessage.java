@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pt.estgp.socialnetwork.domain.audit.DomainObject;
+import pt.estgp.socialnetwork.domain.audit.OwnedDomainObject;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -13,15 +13,15 @@ import javax.validation.constraints.NotBlank;
 @Setter
 @NoArgsConstructor
 @Entity
-public class DirectMessage extends DomainObject {
+public class DirectMessage extends OwnedDomainObject {
     @NotBlank
     @Column(length = 70000)
     private String content;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    /*@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "sender_id")
     @JsonManagedReference
-    private User sender;
+    private User sender;*/
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "recipient_id")

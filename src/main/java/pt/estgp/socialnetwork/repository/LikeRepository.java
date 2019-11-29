@@ -6,5 +6,5 @@ import pt.estgp.socialnetwork.domain.Like;
 import java.util.Optional;
 
 public interface LikeRepository extends JpaRepository<Like, Long> {
-    Optional<Like> findByPostIdAndAutorIdAndRemovedFalse(Long postId, Long autorId);
+    Optional<Like> findByPostIdAndCreatedByIdAndRemovedFalse(Long postId, Long autorId);
 }

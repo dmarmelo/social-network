@@ -1,11 +1,10 @@
 package pt.estgp.socialnetwork.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pt.estgp.socialnetwork.domain.audit.DomainObject;
+import pt.estgp.socialnetwork.domain.audit.OwnedDomainObject;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -14,7 +13,7 @@ import javax.validation.constraints.NotBlank;
 @Setter
 @NoArgsConstructor
 @Entity
-public class Comment extends DomainObject {
+public class Comment extends OwnedDomainObject {
     @NotBlank
     @Column(length = 70000)
     private String content;
@@ -24,8 +23,8 @@ public class Comment extends DomainObject {
     @JsonBackReference
     private Post post;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    /*@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "author_id")
     @JsonManagedReference
-    private User author;
+    private User author;*/
 }

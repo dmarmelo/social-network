@@ -3,7 +3,7 @@ package pt.estgp.socialnetwork.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pt.estgp.socialnetwork.domain.audit.DomainObject;
+import pt.estgp.socialnetwork.domain.audit.OwnedDomainObject;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,10 +14,10 @@ import javax.persistence.ManyToOne;
 @Setter
 @NoArgsConstructor
 @Entity
-public class Follow extends DomainObject {
-    @ManyToOne(fetch = FetchType.EAGER)
+public class Follow extends OwnedDomainObject {
+    /*@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "follower_id")
-    private User follower;
+    private User follower;*/
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "following_id")

@@ -57,7 +57,7 @@ public class User extends DomainObject {
     private Instant birthDate;
 
     @OneToMany(
-            mappedBy = "author",
+            mappedBy = "createdBy",
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             orphanRemoval = true

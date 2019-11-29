@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pt.estgp.socialnetwork.domain.audit.DomainObject;
+import pt.estgp.socialnetwork.domain.audit.OwnedDomainObject;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -16,15 +16,15 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Entity
-public class Post extends DomainObject {
+public class Post extends OwnedDomainObject {
     @NotBlank
     @Column(length = 70000)
     private String content;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    /*@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "autor_id")
     @JsonManagedReference
-    private User author;
+    private User author;*/
 
     @OneToMany(
             mappedBy = "post",
