@@ -79,6 +79,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .permitAll()
                 .antMatchers("/auth/signin", "/auth/signup")
                     .permitAll()
+                .antMatchers("/api/user/checkUsernameAvailability/*", "/api/user/checkEmailAvailability/*")
+                    .permitAll()
                 // Swagger API
                 .antMatchers("/swagger-ui.html",
                         "/v2/api-docs",

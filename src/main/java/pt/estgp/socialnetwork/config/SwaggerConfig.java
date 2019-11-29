@@ -27,7 +27,8 @@ import java.util.List;
 @EnableSwagger2
 public class SwaggerConfig {
     private static final String AUTHORIZATION_HEADER = "Authorization";
-    private static final String DEFAULT_INCLUDE_PATTERN = "(/api/.*|/auth/refresh)";
+    //private static final String DEFAULT_INCLUDE_PATTERN = "(/api/.*|/auth/refresh)";
+    private static final String DEFAULT_INCLUDE_PATTERN = "(?!/api/user/(checkUsernameAvailability|checkEmailAvailability))(/api/.*|/auth/refresh)";
 
     @Bean
     public Docket api() {
