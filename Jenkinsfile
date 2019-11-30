@@ -10,6 +10,16 @@ pipeline {
         sh 'mvn clean package -DskipTests'
       }
     }
+    stage('SonarQube Analysis') {
+      steps {
+        withSonarQubeEnv('sonarqube') {
+          sh '''mvn sonar:sonar \
+                -Dsonar.projectKey=social-network \
+                -Dsonar.host.url=http://127.0.0.1:9000/sonarqube \
+                -Dsonar.login=83d27613ec35ac0c1238f9e078201c4809467e66'''
+        }
+      }
+    }
   }
   /* ######################
    Send status to Discord
