@@ -30,4 +30,8 @@ public abstract class DomainObject implements Serializable {
     @Column(nullable = false)
     private Instant updatedAt;
 
+    @Version
+    @Column(nullable = false)
+    private Integer version;
+
 }
