@@ -5,7 +5,7 @@ import store from '../store'
 const ApiService = {
 
     init(baseURL) {
-        //axios.defaults.baseURL = baseURL;
+        axios.defaults.baseURL = baseURL;
     },
 
     setHeader() {

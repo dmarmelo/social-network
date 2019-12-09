@@ -12,7 +12,7 @@ import VueMeta from "vue-meta";
 Vue.config.productionTip = false
 
 // Set the base URL of the API
-ApiService.init(process.env.VUE_APP_ROOT_API)
+ApiService.init(process.env.VUE_APP_API_BASE_URL)
 
 // If token exists set header
 
