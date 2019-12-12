@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pt.estgp.socialnetwork.domain.Post;
 import pt.estgp.socialnetwork.domain.User;
+import pt.estgp.socialnetwork.exception.BadRequestException;
 import pt.estgp.socialnetwork.exception.ResourceNotFoundException;
 import pt.estgp.socialnetwork.payload.UserIdentityAvailability;
 import pt.estgp.socialnetwork.payload.UserProfile;
@@ -19,6 +20,8 @@ import pt.estgp.socialnetwork.security.UserPrincipal;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/api/user")
@@ -41,6 +44,13 @@ public class UserController {
 
     @GetMapping("/checkEmailAvailability/{email}")
     public UserIdentityAvailability checkEmailAvailability(@PathVariable String email) {
+        // Email Regex
+        Pattern p = Pattern.compile("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])");
+        Matcher m = p.matcher(email);
+        boolean isValid = m.find();
+        if (!isValid) {
+            throw new BadRequestException("Not a valid email");
+        }
         boolean isAvailable = !userRepository.existsByEmail(email);
         return new UserIdentityAvailability(isAvailable);
     }
