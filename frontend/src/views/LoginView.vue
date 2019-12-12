@@ -28,7 +28,7 @@
             </q-tab-panel>
 
             <q-tab-panel name="signup">
-              <SignupForm/>
+              <SignupForm :callback="signupCallback"/>
             </q-tab-panel>
 
           </q-tab-panels>
@@ -69,6 +69,11 @@
     data() {
       return {
         tab: 'login'
+      }
+    },
+    methods: {
+      signupCallback() {
+        this.tab = 'login'
       }
     }
   };

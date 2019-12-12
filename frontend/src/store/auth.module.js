@@ -50,6 +50,26 @@ const actions = {
     }
   },
 
+  async signup({commit}, {name, username, email, password, birthDateStr}) {
+    try {
+      const response = await UserService.signup(name, username, email, password, birthDateStr)
+
+      Notify.create({
+        message: response.message,
+        color: 'green-8',
+        position: 'top',
+        icon: 'fas fa-check'
+      })
+
+      return true
+    } catch (e) {
+      if (e instanceof AuthenticationError) {
+        commit('loginError', {errorCode: e.errorCode, errorMessage: e.message})
+      }
+      return false
+    }
+  },
+
   logout({commit}) {
     UserService.logout()
     commit('logoutSuccess')

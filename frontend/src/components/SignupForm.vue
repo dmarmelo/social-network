@@ -36,7 +36,6 @@
         name="email"
         v-model="email"
         label="Email"
-        lazy-rules
         :rules="[ checkEmailAvailability ]"
       >
         <template v-slot:prepend>
@@ -61,8 +60,8 @@
         filled
         v-model="birthDate"
         label="Birth Date"
-        hint="Format: YYYY/MM/DD"
-        mask="####/##/##"
+        hint="Format: YYYY-MM-DD"
+        mask="####-##-##"
         fill-mask
         lazy-rules
         :rules="[ val => val && isValidDate(val) || 'Invalid birth date' ]"
@@ -70,23 +69,27 @@
         <template v-slot:prepend>
           <q-icon name="event" class="cursor-pointer">
             <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-              <q-date v-model="birthDate" @input="() => $refs.qDateProxy.hide()"/>
+              <q-date v-model="birthDate" mask="YYYY-MM-DD" @input="() => $refs.qDateProxy.hide()"/>
             </q-popup-proxy>
           </q-icon>
         </template>
       </q-input>
 
-      <q-btn type="submit" class="float-right" icon="fas fa-user-plus" label="SignUp" color="primary" :loading="authenticating"/>
+      <q-btn type="submit" class="float-right" icon="fas fa-user-plus" label="SignUp" color="primary"/>
 
     </q-form>
   </div>
 </template>
 
 <script>
-  import {mapActions, mapGetters} from "vuex";
+  import {mapActions} from "vuex";
+  import {UserService} from "../services/user.service";
 
   export default {
     name: "SignupForm",
+    props: {
+      callback: Function
+    },
     data() {
       return {
         name: '',
@@ -96,49 +99,38 @@
         birthDate: ''
       }
     },
-    computed: {
-      ...mapGetters('auth', [
-        'authenticating',
-        'authenticationError',
-        'authenticationErrorCode'
-      ])
-    },
+    computed: {},
     methods: {
       ...mapActions('auth', [
-        'login'
+        'signup'
       ]),
       checkUsernameAvailability(val) {
-        // simulating a delay
-
-        return new Promise((resolve, reject) => {
-          setTimeout(() => {
-            // call
-            //  resolve(true)
-            //     --> content is valid
-            //  resolve(false)
-            //     --> content is NOT valid, no error message
-            //  resolve(error_message)
-            //     --> content is NOT valid, we have error message
-            resolve(!!val || '* Required')
-
-            // calling reject(...) will also mark the input
-            // as having an error, but there will not be any
-            // error message displayed below the input
-            // (only in browser console)
-          }, 1000)
-        })
+        if (val !== '') {
+          return new Promise((resolve, reject) => {
+            UserService.checkUsernameAvailability(val)
+              .then(value => resolve(!!value.available || 'Username not available'))
+            }
+          )
+        }
       },
       checkEmailAvailability(val) {
-
+        if (val !== '') {
+          return new Promise((resolve, reject) => {
+            UserService.checkEmailAvailability(val)
+              .then(
+                value => resolve(!!value.available || 'Email already in use'),
+                reason => resolve('Invalid Email')
+              );
+          })
+        }
       },
       isValidDate(dateStr) {
         let d = Date.parse(dateStr)
-        debugger
         if (isNaN(d)) {
           return false
         }
         d = new Date(d)
-        let split = dateStr.split('/')
+        let split = dateStr.split('-')
         let year = +split[0]
         let month = +split[1]
         let day = +split[2]
@@ -146,8 +138,8 @@
 
       },
       onSubmit() {
-
-
+        this.signup({name: this.name, username: this.username, email: this.email, password: this.password, birthDateStr: this.birthDate})
+        this.callback()
       }
     }
   }

@@ -1,12 +1,25 @@
 import ApiService from './api.service'
 import TokenService from './storage.service'
+import moment from "moment";
 
-class AuthenticationError extends Error {
+class ApplicationError extends Error {
   constructor(errorCode, message) {
-    super(message)
+    super()
     this.name = this.constructor.name
     this.message = message
     this.errorCode = errorCode
+  }
+}
+
+class AuthenticationError extends ApplicationError {
+  constructor(errorCode, message) {
+    super(errorCode, message)
+  }
+}
+
+class InvalidEmailError extends ApplicationError {
+  constructor(errorCode, message) {
+    super(errorCode, message)
   }
 }
 
@@ -35,6 +48,44 @@ const UserService = {
       return response.data.accessToken
     } catch (error) {
       throw new AuthenticationError(error.response.status, error.response.data.message)
+    }
+  },
+
+  /**
+   * Signup the user
+   */
+  signup: async function (name, username, email, password, birthDateStr) {
+    try {
+      let birthDate = moment(birthDateStr).format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]')
+
+      const response = await ApiService.post(
+        "/auth/signup",
+        {
+          name: name,
+          username: username,
+          email: email,
+          password: password,
+          birthDate: birthDate
+        }
+      )
+
+      return response.data
+    } catch (error) {
+      throw new AuthenticationError(error.response.status, error.response.data.message)
+    }
+  },
+
+  checkUsernameAvailability: async function (username) {
+    const response = await ApiService.get("/api/user/checkUsernameAvailability/" + username)
+    return response.data
+  },
+
+  checkEmailAvailability: async function (email) {
+    try {
+      const response = await ApiService.get("/api/user/checkEmailAvailability/" + email)
+      return response.data
+    } catch (error) {
+      throw new InvalidEmailError(error.response.status, error.response.data.message)
     }
   },
 
