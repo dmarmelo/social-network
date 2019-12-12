@@ -124,7 +124,12 @@ const UserService = {
     ApiService.removeHeader()
 
     ApiService.unmount401Interceptor()
-  }
+  },
+
+  search: async function (search) {
+    const response = await ApiService.get("/api/user/search/" + search)
+    return response.data
+  },
 }
 
 export {UserService, AuthenticationError}
