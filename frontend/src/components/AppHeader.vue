@@ -49,11 +49,12 @@
         </q-select>
 
         <div class="toolbar-link q-ml-xs q-gutter-md text-body2 text-weight-bold row items-center no-wrap">
-          <router-link to="/" class="text-white">
-            Home
-          </router-link>
+          <q-avatar color="grey" text-color="white">UN</q-avatar>
           <router-link to="/profile" class="text-white">
             Profile
+          </router-link>
+          <router-link to="/" class="text-white">
+            Home
           </router-link>
           <router-link to="/chat" class="text-white">
             Chat
@@ -124,7 +125,7 @@
   }
 
   .toolbar-select.q-field {
-    width: 450px !important;
+    width: 300px !important;
   }
 
   .spinner-bg {
