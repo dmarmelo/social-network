@@ -10,7 +10,7 @@
         v-model="usernameOrEmail"
         label="Email or Username"
         lazy-rules
-        :rules="[ val => val && val.length > 0 || 'Please type your email address or your username' ]"
+        :rules="[ val => val && val.length > 0 || 'Please type your email address or username' ]"
       >
         <template v-slot:prepend>
           <q-icon name="fas fa-user"/>
