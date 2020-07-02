@@ -51,7 +51,7 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<!-- TODO Added version to be compatible with mysql 5.1, need to be changed later -->
-			<version>5.1.47</version>
+			<version>8.0.16</version>
 			<scope>runtime</scope>
 		</dependency>
 		<!--<dependency>
